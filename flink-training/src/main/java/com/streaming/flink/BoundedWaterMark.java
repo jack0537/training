@@ -15,15 +15,19 @@ public class BoundedWaterMark extends BoundedOutOfOrdernessTimestampExtractor<Ha
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    public BoundedWaterMark(long maxOutOfOrder){
+    public BoundedWaterMark(long maxOutOfOrder) {
         super(Time.seconds(maxOutOfOrder));
     }
 
     @Override
     public long extractTimestamp(HashMap<String, String> data) {
-        SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String d = format.format(Long.valueOf(data.get("timestamp")));
+        Long tmp = Long.valueOf(data.get("timestamp"));
+        long l = tmp.longValue() - 60 * 1000;
+//        timestamp = (Long) data.get("timestamp");
         LOG.info("timestamp:" + data.get("timestamp") + " date:" + d);
+        LOG.info("now watermark:" + l + " date:" + format.format(l));
         LOG.info("last watermark:" + super.getCurrentWatermark().getTimestamp() + " date: " + format.format(super.getCurrentWatermark().getTimestamp()));
 
         return Long.valueOf(data.get("timestamp"));

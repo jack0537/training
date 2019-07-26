@@ -1,3 +1,5 @@
+
+
 import com.xiaoxiang.flink.ConnectSource;
 import com.xiaoxiang.flink.Record;
 import com.xiaoxiang.flink.SocketSource;
@@ -58,7 +60,7 @@ public class Main {
         DataStream<Record>  dataStream = env.addSource(new ConnectSource());
 
 
-        ConnectedStreams<Record, String>  connectedStreams = dataStream.connect(configDataStream);
+        ConnectedStreams<Record, String> connectedStreams = dataStream.connect(configDataStream);
 
         DataStream<Record> flatMapDataStream =  connectedStreams.flatMap(new CoFlatMapFunction<Record, String, Record>() {
 
